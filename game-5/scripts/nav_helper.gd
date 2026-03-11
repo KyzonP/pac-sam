@@ -22,6 +22,20 @@ func is_tile_free(dir, pos) -> bool:
 		return true
 	else:
 		return false
+		
+func get_tile(dir, pos):
+	# Get current cell
+	var current_cell = maze.local_to_map(pos)
+	
+	# Calculate next cell based on direction
+	var next_cell = current_cell
+	match dir:
+		Direction.UP: next_cell.y -= 1
+		Direction.DOWN: next_cell.y += 1
+		Direction.LEFT: next_cell.x -= 1
+		Direction.RIGHT: next_cell.x += 1
+	
+	return maze.map_to_local(next_cell)
 
 func snap_to_grid(body, pos):
 	var current_cell = maze.local_to_map(pos)

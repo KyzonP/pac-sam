@@ -1,8 +1,8 @@
 extends Area2D
 
 enum Direction {UP, DOWN, LEFT, RIGHT, VOID}
-var lastDir : Direction = Direction.RIGHT
-var moveDir : Direction = Direction.VOID
+var lastDir : Direction = Direction.UP
+var moveDir : Direction = Direction.RIGHT
 
 var speed : float = 59.88
 
@@ -26,7 +26,7 @@ func _physics_process(delta):
 	
 	# If lastDir != moveDir, check the different directions. If that direction is free, change the moveDir
 	if lastDir != moveDir and helper.is_tile_free(lastDir, global_position):
-		
+
 		if global_position.distance_to(centre) < SNAP_DISTANCE:
 			global_position = centre
 			moveDir = lastDir
