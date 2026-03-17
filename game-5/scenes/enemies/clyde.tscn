@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bkhwjtdvgrsg4"]
+
+[ext_resource type="Script" uid="uid://cw6147hi5an5f" path="res://scripts/clyde.gd" id="1_qdwno"]
+[ext_resource type="Texture2D" uid="uid://brbtab05pwu0r" path="res://assets/GhostTest.png" id="2_c73eo"]
+
+[node name="Clyde" type="Node2D" unique_id=649898408]
+script = ExtResource("1_qdwno")
+releasePellets = 60
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2017887264]
+modulate = Color(1, 0.3137255, 0.047058824, 1)
+texture = ExtResource("2_c73eo")

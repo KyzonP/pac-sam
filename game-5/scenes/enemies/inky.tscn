@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bxyguxduuqhve"]
+
+[ext_resource type="Script" uid="uid://d2fhmcls8tssa" path="res://scripts/inky.gd" id="1_e5hbg"]
+[ext_resource type="Texture2D" uid="uid://brbtab05pwu0r" path="res://assets/GhostTest.png" id="2_2j0qt"]
+
+[node name="Inky" type="Node2D" unique_id=649898408]
+script = ExtResource("1_e5hbg")
+releasePellets = 30
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2017887264]
+texture = ExtResource("2_2j0qt")

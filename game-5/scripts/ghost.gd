@@ -2,13 +2,15 @@ extends Area2D
 
 
 var state : States = States.SCATTER
+var lastState : States = States.SCATTER
 var lastDir : Direction = Direction.VOID
 var moveDir : Direction = Direction.VOID
 var speed : float = 75.0
 @export var helper : Node2D
 var PRNG : int = 0
 
-var freeze : bool = false
+var freeze : bool = true
+var beenEaten : bool = false
 
 const SNAP_DISTANCE = 1
 
@@ -155,31 +157,41 @@ func checkIntersection(cell, centre, turn : bool = false):
 		
 # Swap between states - for many state changes, reverse direction. Sorry for having a str input for this lmao
 func changeState(newState : String):
-	if state == States.FRIGHTENED:
-		self.modulate = Color(1,1,1)
-		if newState == "scatter":
-			state = States.SCATTER
-		elif newState == "chase":
-			state = States.CHASE
-		speed = level_stats.setStats(level_stats.ghostSpeed)
+	# Some really bad code just so this doesn't run if they're being set to their current state
+	# Chase, Scatter, Frightened
+	var newStateInt
+	if newState == "chase":
+		newStateInt = 0
+	elif newState == "scatter":
+		newStateInt = 1
 	else:
-		if newState == "scatter":
-			state = States.SCATTER
-		elif newState == "chase":
-			state = States.CHASE
-		elif newState == "frightened":
-			state = States.FRIGHTENED
-			self.modulate = Color(0,0,255)
-			speed = level_stats.setStats(level_stats.scareGhostSpeed)
-			
-		_reverseDirection()
-		
-	print(state)
+		newStateInt = 2
+	
+	if state != newStateInt:
+		if state == States.FRIGHTENED:
+			self.modulate = Color(1,1,1)
+			if newState == "scatter":
+				state = States.SCATTER
+			elif newState == "chase":
+				state = States.CHASE
+			speed = level_stats.setStats(level_stats.ghostSpeed)
+		else:
+			if newState == "scatter":
+				state = States.SCATTER
+			elif newState == "chase":
+				state = States.CHASE
+			elif newState == "frightened":
+				# Storing their previous state for when they're eaten
+				lastState = state
+				
+				state = States.FRIGHTENED
+				self.modulate = Color(0,0,255)
+				speed = level_stats.setStats(level_stats.scareGhostSpeed)
+				
+			_reverseDirection()
 
 # Instantly reverse direction for ghost. (If doing so won't clip through a wall, that is)
 func _reverseDirection():
-	print("reverse")
-	
 	var cell = helper.maze.local_to_map(global_position)
 	var centre = helper.maze.map_to_local(cell)
 	
@@ -208,28 +220,63 @@ func freezeGhost():
 	freeze = true
 		
 func reset(death, level):
-	# If a restart is happening due to a death
-	if death:
-		global_position = startPos
-		refreshMovement()
-		
-	# If a restart is happening due to completion of the level
-	else:
-		global_position = startPos
-		refreshMovement()
-		
-		if level > 1:
-			speed = 80
-		
+	speed = level_stats.setStats(level_stats.ghostSpeed)
+	changeState("scatter")
+	
+	global_position = startPos
+	freeze = true
+			
+func release():
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "position", Vector2(216,280), self.position.distance_to(Vector2(216,280))/speed)
+	tween.chain().tween_property(self, "position", Vector2(216,248), self.position.distance_to(Vector2(216,248))/speed)
+	await tween.finished
+	
+	tween.kill()
+	
 	freeze = false
+	refreshMovement()
+	
+func eaten():
+	beenEaten = true
+	self.modulate = Color(1,1,1, 0.5)
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "position", Vector2(224,280), self.position.distance_to(Vector2(224,280))/speed)
+
+	await tween.finished
+	
+	tween.kill()
+	
+	# Some really bad code to convert the last state to an int
+	var lastStateStr
+	if lastState == States.CHASE:
+		lastStateStr = "chase"
+	elif lastState == States.SCATTER:
+		lastStateStr = "scatter"
+	elif lastState == States.FRIGHTENED:
+		lastStateStr = "frightened"
+		
+	changeState(lastStateStr)
+	
+	beenEaten = false
+	
+	release()
 	
 # Func to stop weird movement on resets/pauses
 func refreshMovement():
-	lastDir = Direction.UP
-	moveDir = Direction.UP
+	#lastDir = Direction.UP
+	#moveDir = Direction.UP
+	#var cell = helper.maze.local_to_map(global_position)
+	#var centre = helper.maze.map_to_local(cell)
+	#global_position = centre
+	#freeze = false
+	
+	lastDir = Direction.VOID
+	moveDir = Direction.VOID
 	var cell = helper.maze.local_to_map(global_position)
 	var centre = helper.maze.map_to_local(cell)
-	global_position = centre
+	checkIntersection(cell, centre, true)
+	
 	
 func checkFrightened():
 	if state == States.FRIGHTENED:

@@ -22,6 +22,7 @@ func _ready():
 	event_bus.restart.connect(reset)
 	event_bus.freeze.connect(freezeSam)
 	event_bus.ghostState.connect(ghostFrightenedToggle)
+	event_bus.startLevel.connect(start)
 	
 	refreshMovement()
 	
@@ -82,16 +83,17 @@ func _physics_process(delta):
 	
 	for area in overlapping_areas:
 		if area.is_in_group("ghost"):
+			
 			var ghostCell = helper.maze.local_to_map(area.global_position)
 			if cell == ghostCell:
-				if !area.checkFrightened:
+				if !area.checkFrightened():
 					event_bus.emit_signal("endGame", true)
-				else:
-					pass
+				elif !area.beenEaten:
+					area.eaten()
+					event_bus.emit_signal("ghostEaten")
 				
 func freezeSam():
 	freeze = true
-	
 		
 func ghostFrightenedToggle(state):
 	if state == "frightened":
@@ -99,17 +101,11 @@ func ghostFrightenedToggle(state):
 	else:
 		speed = level_stats.setStats(level_stats.samSpeed)
 		
-func reset(death, level):
-	# If a restart is happening due to a death
-	if death:
-		global_position = startPos
-		refreshMovement()
-		
-	# If a restart is happening due to completion of the level
-	else:
-		global_position = startPos
-		refreshMovement()
-		
-		speed = level_stats.setStats(level_stats.samSpeed)
-		
+func start():
 	freeze = false
+		
+func reset(death, level):
+	global_position = startPos
+	refreshMovement()
+	
+	speed = level_stats.setStats(level_stats.samSpeed)

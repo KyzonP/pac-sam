@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b1ffgb82mggob"]
+
+[ext_resource type="Script" uid="uid://kw37j1c51hjo" path="res://scripts/pinky.gd" id="1_kcxc8"]
+[ext_resource type="Texture2D" uid="uid://brbtab05pwu0r" path="res://assets/GhostTest.png" id="2_ypc43"]
+
+[node name="Pinky" type="Node2D" unique_id=649898408]
+script = ExtResource("1_kcxc8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2017887264]
+modulate = Color(0.9380273, 0.0007941574, 0.9507163, 1)
+texture = ExtResource("2_ypc43")
