@@ -10,12 +10,14 @@ var levelStart : bool = false
 var freeze : bool = false
 var ghostFrightened : bool = false
 var ghostsEaten : int = 0
-
+var ghostFlashes : int = 5
 
 ### TIMERS ###
 var stateTimer = 0.0
 var frightenedTimer = 0.0
 var frightenedTimerMax = 6.0
+@export var flashTimer = 0.0
+@export var flashTimerMax = 0.5
 
 var state : States = States.SCATTER
 
@@ -36,29 +38,36 @@ func _ready():
 	
 	event_bus.emit_signal("startLevel")
 		
-func reset(death, level):
+func reset(death, _levelNo):
 	# If a restart is happening due to a death
 	if death:
 		stateTimer = 0
-
-		stateTimes = level_stats.setStats(level_stats.stateTimes)
+		
 		
 	# If a restart is happening due to completion of the level
 	else:
 		stateTimer = 0
 		
 		level = level + 1
+			
+		frightenedTimerMax = level_stats.getStats(level_stats.scareTime)
+		ghostFlashes = level_stats.getStats(level_stats.scareFlashes)
 		
-		if level > 1 and level < 5:
-			stateTimes = [7,20,7,20,5,1033,0.016666]
-		elif level >= 5:
-			stateTimes = [5,20,5,20,5,1037,0.016666]
-			
-		stateTimes = level_stats.setStats(level_stats.stateTimes)
-			
+		pelletsEaten = 0
+		won = false
+		
+	
+	
+	ghostFrightened = false
+	event_bus.emit_signal("ghostFlash", true)
 	state = States.SCATTER
 	freeze = false
 	event_bus.emit_signal("startLevel")
+	
+	if stateTimes != level_stats.getStats(level_stats.stateTimes):
+		stateTimes = level_stats.getStats(level_stats.stateTimes)
+	print(level_stats.stateTimes)
+	print(stateTimes)
 		
 func checkWin():
 	pelletsEaten += 1
@@ -87,8 +96,9 @@ func endGame(death):
 					level_stats.highScore = score
 					get_tree().reload_current_scene()
 		else:
-			event_bus.emit_signal("restart", false, level + 1)
 			level_stats.level = level+1
+			event_bus.emit_signal("restart", false, level + 1)
+			
 	
 func _physics_process(delta):
 	if !ghostFrightened and !won:
@@ -106,6 +116,8 @@ func _physics_process(delta):
 	elif !won:
 		frightenedTimer += delta
 		if frightenedTimer >= frightenedTimerMax:
+			event_bus.emit_signal("ghostFlash", true)
+			
 			frightenedTimer = 0
 			ghostFrightened = false
 			ghostsEaten = 0
@@ -113,9 +125,14 @@ func _physics_process(delta):
 				event_bus.emit_signal("ghostState", "scatter")
 			elif state == States.CHASE:
 				event_bus.emit_signal("ghostState", "chase")
+		elif frightenedTimer > (frightenedTimerMax - (flashTimerMax * (ghostFlashes + 1))):
+			flashTimer += delta
+			if flashTimer >= flashTimerMax:
+				flashTimer = 0
+				event_bus.emit_signal("ghostFlash", false)
 		
-func ghostFrightenedToggle(state):
-	if state == "frightened":
+func ghostFrightenedToggle(newState):
+	if newState == "frightened":
 		ghostFrightened = true
 
 func ghostEaten():

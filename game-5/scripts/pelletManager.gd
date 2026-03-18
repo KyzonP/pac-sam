@@ -1,9 +1,17 @@
 extends Node2D
 
+# Honestly this could be two scripts - one for pellet managing and the other for releasing inky and clyde. Ruh roh
+
 var pellets : int
 
 var pelletGroup : Array
 var powerupGroup : Array
+
+var releaseTimer : float = 0.0
+var releaseTimerMax : float = 4.0
+
+var inky : bool = false
+var clyde : bool = false
 
 signal scoreChanged
 
@@ -12,8 +20,32 @@ func _ready():
 	_createGroups()
 	
 	event_bus.restart.connect(reset)
+	event_bus.inkyReleased.connect(inkyReleased)
+	event_bus.clydeReleased.connect(clydeReleased)
+	
+func _physics_process(delta):
+	# If less than 100 (to stop it checking once all ghosts are released)
+	if !inky or !clyde:
+		releaseTimer += delta
+		if releaseTimer >= releaseTimerMax:
+			if !inky:
+				event_bus.emit_signal("checkInky")
+			elif !clyde:
+				event_bus.emit_signal("checkClyde")
+
+func inkyReleased():
+	inky = true
+	releaseTimer = 0
+	
+func clydeReleased():
+	clyde = true
+	releaseTimer = 0
 	
 func removePellet(pellet):
+	# If less than 100 (to stop it checking once all ghosts are released)
+	if releaseTimer < 100:
+		releaseTimer = 0
+	
 	pellet.visible = false
 	
 	scoreChanged.emit(10)
@@ -21,6 +53,10 @@ func removePellet(pellet):
 	event_bus.emit_signal("pelletConsumed")
 	
 func removePowerUp(powerUp):
+	# If less than 100 (to stop it checking once all ghosts are released)
+	if releaseTimer < 100:
+		releaseTimer = 0
+	
 	powerUp.visible = false
 	
 	scoreChanged.emit(50)
@@ -47,7 +83,10 @@ func _createGroups():
 		elif i.is_in_group("pellet"):
 			pelletGroup.append(i)
 	
-func reset(death, level):
+func reset(death, _level):
+	inky = false
+	clyde = false
+	
 	# If a restart is happening due to a death
 	if death:
 		pass

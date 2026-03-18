@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bq04vr41e0ivn"]
+
+[ext_resource type="Script" uid="uid://cddbpftou6ocj" path="res://scripts/ui/pause_menu.gd" id="1_6tw0m"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1191924403]
+process_mode = 3
+script = ExtResource("1_6tw0m")
+
+[node name="Button" type="Button" parent="." unique_id=146757375]
+offset_left = 184.0
+offset_top = 56.0
+offset_right = 264.0
+offset_bottom = 87.0
+text = "Resume"

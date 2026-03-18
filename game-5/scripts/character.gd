@@ -86,7 +86,7 @@ func _physics_process(delta):
 			
 			var ghostCell = helper.maze.local_to_map(area.global_position)
 			if cell == ghostCell:
-				if !area.checkFrightened():
+				if !area.checkFrightened() and !area.beenEaten:
 					event_bus.emit_signal("endGame", true)
 				elif !area.beenEaten:
 					area.eaten()
@@ -97,15 +97,17 @@ func freezeSam():
 		
 func ghostFrightenedToggle(state):
 	if state == "frightened":
-		speed = level_stats.setStats(level_stats.scareSamSpeed)
+		speed = level_stats.getStats(level_stats.scareSamSpeed)
 	else:
-		speed = level_stats.setStats(level_stats.samSpeed)
+		speed = level_stats.getStats(level_stats.samSpeed)
 		
 func start():
 	freeze = false
 		
-func reset(death, level):
+func reset(_death, _level):
 	global_position = startPos
 	refreshMovement()
 	
-	speed = level_stats.setStats(level_stats.samSpeed)
+	speed = level_stats.getStats(level_stats.samSpeed)
+	
+	print(speed)

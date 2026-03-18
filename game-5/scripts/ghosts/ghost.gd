@@ -12,6 +12,9 @@ var PRNG : int = 0
 var freeze : bool = true
 var beenEaten : bool = false
 
+var respawnTween : Tween
+var releaseTween : Tween
+
 const SNAP_DISTANCE = 1
 
 enum States {CHASE, SCATTER, FRIGHTENED}
@@ -28,6 +31,7 @@ func _ready():
 	event_bus.ghostState.connect(changeState)
 	event_bus.restart.connect(reset)
 	event_bus.freeze.connect(freezeGhost)
+	event_bus.ghostFlash.connect(flashGhost)
 
 func _physics_process(delta):
 	var cell = helper.maze.local_to_map(global_position)
@@ -70,39 +74,39 @@ func nextTile():
 	return Vector2.ZERO
 
 # Check each direction - except the direction the ghost is coming from. If those directions are free, choose between them. (Unless turn is set to true)
-func checkIntersection(cell, centre, turn : bool = false):
+func checkIntersection(_cell, centre, turn : bool = false, spawn : bool = false):
 	emit_signal("calculateTarget", state)
 	
 	var possDir: Array[PotentialTiles] = []
-	var possibleDirections = 0
+	var _possibleDirections = 0
 	
 	if moveDir != Direction.UP or turn:
 		if helper.is_tile_free(Direction.DOWN, centre + nextTile()):
 			var newPoss = PotentialTiles.new(Direction.DOWN, helper.get_tile(Direction.DOWN, centre + nextTile()))
 			possDir.append(newPoss)
 			
-			possibleDirections += 1
+			_possibleDirections += 1
 			
 	if moveDir != Direction.DOWN or turn:
 		if helper.is_tile_free(Direction.UP, centre + nextTile()):
 			var newPoss = PotentialTiles.new(Direction.UP, helper.get_tile(Direction.UP, centre + nextTile()))
 			possDir.append(newPoss)
 			
-			possibleDirections += 1
+			_possibleDirections += 1
 	
 	if moveDir != Direction.RIGHT or turn:
 		if helper.is_tile_free(Direction.LEFT, centre + nextTile()):
 			var newPoss = PotentialTiles.new(Direction.LEFT, helper.get_tile(Direction.LEFT, centre + nextTile()))
 			possDir.append(newPoss)
 			
-			possibleDirections += 1
+			_possibleDirections += 1
 			
 	if moveDir != Direction.LEFT or turn:
 		if helper.is_tile_free(Direction.RIGHT, centre + nextTile()):
 			var newPoss = PotentialTiles.new(Direction.RIGHT, helper.get_tile(Direction.RIGHT, centre + nextTile()))
 			possDir.append(newPoss)
 			
-			possibleDirections += 1
+			_possibleDirections += 1
 		
 	
 	# If there's only one way to go, just go that way
@@ -152,8 +156,27 @@ func checkIntersection(cell, centre, turn : bool = false):
 					winner = Direction.RIGHT
 				elif helper.is_tile_free(Direction.DOWN, centre + nextTile()) and moveDir != Direction.UP:
 					winner = Direction.DOWN
-		
 		lastDir = winner
+		
+	if spawn:
+		print("blinky")
+		#216, 232 OR 232,232
+		var leftDistance = Vector2(216,232).distance_to(helper.maze.map_to_local(targetTile))
+		var rightDistance = Vector2(232,232).distance_to(helper.maze.map_to_local(targetTile))
+		
+		if leftDistance > rightDistance:
+			moveDir = Direction.RIGHT
+		else:
+			moveDir = Direction.LEFT
+			
+		print(lastDir)
+		print(freeze)
+		
+		#for i in possDir:
+			#var distance = i.pos.distance_to(helper.maze.map_to_local(targetTile))
+			#if distance < bestDistance:
+				#bestDistance = distance
+				#winner = i.dir
 		
 # Swap between states - for many state changes, reverse direction. Sorry for having a str input for this lmao
 func changeState(newState : String):
@@ -174,7 +197,7 @@ func changeState(newState : String):
 				state = States.SCATTER
 			elif newState == "chase":
 				state = States.CHASE
-			speed = level_stats.setStats(level_stats.ghostSpeed)
+			speed = level_stats.getStats(level_stats.ghostSpeed)
 		else:
 			if newState == "scatter":
 				state = States.SCATTER
@@ -186,7 +209,7 @@ func changeState(newState : String):
 				
 				state = States.FRIGHTENED
 				self.modulate = Color(0,0,255)
-				speed = level_stats.setStats(level_stats.scareGhostSpeed)
+				speed = level_stats.getStats(level_stats.scareGhostSpeed)
 				
 			_reverseDirection()
 
@@ -216,37 +239,55 @@ func _reverseDirection():
 		checkIntersection(cell, centre)
 		return
 		
+func flashGhost(final : bool = false):
+	if !final:
+		visible = !visible
+	else:
+		visible = true
+		
 func freezeGhost():
 	freeze = true
+	
+	if releaseTween:
+		releaseTween.kill()
+	if respawnTween:
+		respawnTween.kill()
 		
-func reset(death, level):
-	speed = level_stats.setStats(level_stats.ghostSpeed)
+func reset(_death, _level):
+	speed = level_stats.getStats(level_stats.ghostSpeed)
 	changeState("scatter")
 	
 	global_position = startPos
 	freeze = true
 			
-func release():
-	var tween = get_tree().create_tween()
-	tween.tween_property(self, "position", Vector2(216,280), self.position.distance_to(Vector2(216,280))/speed)
-	tween.chain().tween_property(self, "position", Vector2(216,248), self.position.distance_to(Vector2(216,248))/speed)
-	await tween.finished
+func release(blinkyStart : bool = false):
+	if releaseTween:
+		releaseTween.kill()
 	
-	tween.kill()
+	if !blinkyStart:
+		releaseTween = get_tree().create_tween()
+		releaseTween.tween_property(self, "position", Vector2(224,280), self.position.distance_to(Vector2(216,280))/speed)
+		releaseTween.chain().tween_property(self, "position", Vector2(224,232), self.position.distance_to(Vector2(216,248))/speed)
+		releaseTween.finished.connect(releaseDone)
+	else:
+		releaseDone()
 	
+func releaseDone():
 	freeze = false
-	refreshMovement()
+	refreshMovement(true)
 	
 func eaten():
 	beenEaten = true
 	self.modulate = Color(1,1,1, 0.5)
-	var tween = get_tree().create_tween()
-	tween.tween_property(self, "position", Vector2(224,280), self.position.distance_to(Vector2(224,280))/speed)
-
-	await tween.finished
 	
-	tween.kill()
+	if respawnTween:
+		respawnTween.kill()
+		
+	respawnTween = get_tree().create_tween()
+	respawnTween.tween_property(self, "position", Vector2(224,280), self.position.distance_to(Vector2(224,280))/speed)
+	respawnTween.finished.connect(_eatenDone)
 	
+func _eatenDone():
 	# Some really bad code to convert the last state to an int
 	var lastStateStr
 	if lastState == States.CHASE:
@@ -263,7 +304,7 @@ func eaten():
 	release()
 	
 # Func to stop weird movement on resets/pauses
-func refreshMovement():
+func refreshMovement( blinky: bool = false):
 	#lastDir = Direction.UP
 	#moveDir = Direction.UP
 	#var cell = helper.maze.local_to_map(global_position)
@@ -275,7 +316,7 @@ func refreshMovement():
 	moveDir = Direction.VOID
 	var cell = helper.maze.local_to_map(global_position)
 	var centre = helper.maze.map_to_local(cell)
-	checkIntersection(cell, centre, true)
+	checkIntersection(cell, centre, true, blinky)
 	
 	
 func checkFrightened():

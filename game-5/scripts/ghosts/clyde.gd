@@ -18,13 +18,18 @@ func _ready():
 	event_bus.pelletConsumed.connect(checkRelease)
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
+	event_bus.checkClyde.connect(checkClyde)
 	
 func start():
 	checkRelease()
 	
-func reset(death, level):
+func reset(_death, level):
 	pelletsEaten = -1
 	released = false
+	if level > 0 and level < 3:
+		releasePellets = 50
+	else:
+		releasePellets = 0
 	
 func clydeTarget(state : States):
 	# if more than 8 tiles away from Sam, go towards him - otherwise, go to scatter tile
@@ -36,7 +41,6 @@ func clydeTarget(state : States):
 	elif state == States.SCATTER:
 		get_parent().targetTile = scatterTile
 		
-### CRUISE ELROY CODE HERE ###
 func checkRelease():
 	pelletsEaten += 1
 	
@@ -47,3 +51,8 @@ func release():
 	get_parent().release()
 	
 	released = true
+	
+func checkClyde():
+	if !released:
+		release()
+		event_bus.emit_signal("clydeReleased")

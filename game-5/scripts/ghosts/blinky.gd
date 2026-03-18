@@ -21,18 +21,18 @@ func _ready():
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
 	
-	elroy1 = level_stats.setStats(level_stats.elroyDots)
-	elroy2 = level_stats.setStats(level_stats.elroyDots2)
+	elroy1 = level_stats.getStats(level_stats.elroyDots)
+	elroy2 = level_stats.getStats(level_stats.elroyDots2)
 	
 func start():
 	checkRelease()
 	
-func reset(death, level):
+func reset(_death, _level):
 	pelletsEaten = -1
 	released = false
 	
-	elroy1 = level_stats.setStats(level_stats.elroyDots)
-	elroy2 = level_stats.setStats(level_stats.elroyDots2)
+	elroy1 = level_stats.getStats(level_stats.elroyDots)
+	elroy2 = level_stats.getStats(level_stats.elroyDots2)
 	
 func blinkyTarget(state : States):
 	if state == States.CHASE:
@@ -45,13 +45,13 @@ func checkRelease():
 	pelletsEaten += 1
 	
 	if pelletsEaten >= releasePellets and !released:
-		release()
+		release(true)
 	elif (244 - pelletsEaten) < elroy1:
-		get_parent().speed = level_stats.checkStats(level_stats.elroySpeed)
+		get_parent().speed = level_stats.getStats(level_stats.elroySpeed)
 	elif (244 - pelletsEaten) < elroy2:
-		get_parent().speed = level_stats.checkStats(level_stats.elroySpeed2)
+		get_parent().speed = level_stats.getStats(level_stats.elroySpeed2)
 	
-func release():
-	get_parent().release()
+func release(blinkyStart: bool = false):
+	get_parent().release(blinkyStart)
 	
 	released = true

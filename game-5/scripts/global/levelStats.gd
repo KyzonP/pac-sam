@@ -18,14 +18,11 @@ var scareTime = [6,5,4,3,2,5,2,2,1,5,2,1,1,3,1,1]
 var scareFlashes = [5,5,5,5,5,5,5,5,3,5,5,3,3,5,3,3]
 var stateTimes = [[7,20,7,20,5,20,5],[7,20,7,20,5,1033,0.016],[7,20,7,20,5,1033,0.016],[7,20,7,20,5,1033,0.016],[5,20,5,20,5,1037,0.016]]
 
-func setStats(array):
-	if array[level] != null:
-		return array[level-1]
+func getStats(array):
+	# Reorganized so when returning the stateTimers array it's a duplicate and not a reference
+	# Also redid the clamping thing I hope
+	var idx = clampi(level-1, 0, array.size()-1)
+	if array[idx] is Array:
+		return array[idx].duplicate(true)
 	else:
-		return array[-1]
-		
-func checkStats(array):
-	if array[level] != null:
-		return array[level-1]
-	else:
-		return array[-1]
+		return array[idx]

@@ -2,6 +2,23 @@
 
 [ext_resource type="Script" uid="uid://cssgtpg25pagu" path="res://scripts/character.gd" id="1_ksivd"]
 [ext_resource type="Texture2D" uid="uid://bmexgxslm6rws" path="res://assets/SamTest.png" id="2_wmuhm"]
+[ext_resource type="Texture2D" uid="uid://b2dendsilw4kv" path="res://assets/SamRight.png" id="3_wmuhm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6t08"]
+atlas = ExtResource("3_wmuhm")
+region = Rect2(0, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8146"]
+atlas = ExtResource("3_wmuhm")
+region = Rect2(16, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jbts"]
+atlas = ExtResource("3_wmuhm")
+region = Rect2(32, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcohs"]
+atlas = ExtResource("3_wmuhm")
+region = Rect2(48, 0, 16, 28)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ohbkr"]
 animations = [{
@@ -12,6 +29,23 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6t08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8146")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jbts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcohs")
+}],
+"loop": true,
+"name": &"right",
+"speed": 4.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32mhh"]
@@ -23,7 +57,10 @@ script = ExtResource("1_ksivd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=108264579]
 z_index = 1
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_ohbkr")
+animation = &"right"
+autoplay = "right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1488719741]
 shape = SubResource("RectangleShape2D_32mhh")
