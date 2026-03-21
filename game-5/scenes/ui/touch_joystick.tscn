@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://srchp0bjup8j"]
+
+[ext_resource type="Texture2D" uid="uid://bkplmv4y4mbjg" path="res://assets/ui/TouchJoystickBack.png" id="1_l8udb"]
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="2_0woo3"]
+[ext_resource type="Texture2D" uid="uid://ce5hmk34x6qbe" path="res://assets/ui/TouchJoystickFront.png" id="2_nvklk"]
+[ext_resource type="Script" uid="uid://bod5dggnt0vtr" path="res://scripts/ui/joystick.gd" id="3_0woo3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8udb"]
+radius = 39.82
+
+[node name="TouchJoystick" type="Node2D" unique_id=443366423]
+
+[node name="JoyBase" type="Sprite2D" parent="." unique_id=1648252216]
+material = ExtResource("2_0woo3")
+texture = ExtResource("1_l8udb")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="." unique_id=2000808104]
+z_index = 5
+material = ExtResource("2_0woo3")
+position = Vector2(-60, -70)
+texture_normal = ExtResource("2_nvklk")
+texture_pressed = ExtResource("2_nvklk")
+shape = SubResource("CircleShape2D_l8udb")
+action = "test"
+script = ExtResource("3_0woo3")
+
+[connection signal="pressed" from="TouchScreenButton" to="TouchScreenButton" method="_on_pressed"]
+[connection signal="released" from="TouchScreenButton" to="TouchScreenButton" method="_on_released"]

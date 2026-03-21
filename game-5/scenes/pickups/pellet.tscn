@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bceov7irkhtnn"]
+
+[ext_resource type="Script" uid="uid://b8qmoh7ygu3e7" path="res://scripts/pickups/pellet.gd" id="1_bonx2"]
+[ext_resource type="Texture2D" uid="uid://04fvwhpb6qvf" path="res://assets/pickups/Pellet.png" id="1_euuo5"]
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="2_imiex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_euuo5"]
+radius = 3.0
+
+[node name="Pellet" type="Area2D" unique_id=64858553 groups=["pellet"]]
+collision_layer = 8
+script = ExtResource("1_bonx2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1992834359]
+material = ExtResource("2_imiex")
+texture = ExtResource("1_euuo5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1452762970]
+shape = SubResource("CircleShape2D_euuo5")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

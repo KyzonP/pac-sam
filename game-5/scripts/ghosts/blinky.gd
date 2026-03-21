@@ -11,6 +11,7 @@ extends Node2D
 enum States {CHASE, SCATTER, FRIGHTENED}
 enum Direction {UP, DOWN, LEFT, RIGHT, VOID}
 
+
 func _ready():
 	scatterTile = get_parent().helper.maze.local_to_map(Vector2(408,8))
 	
@@ -20,6 +21,7 @@ func _ready():
 	event_bus.pelletConsumed.connect(checkRelease)
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
+	event_bus.disableShadows.connect(disableShadows)
 	
 	elroy1 = level_stats.getStats(level_stats.elroyDots)
 	elroy2 = level_stats.getStats(level_stats.elroyDots2)
@@ -33,6 +35,8 @@ func reset(_death, _level):
 	
 	elroy1 = level_stats.getStats(level_stats.elroyDots)
 	elroy2 = level_stats.getStats(level_stats.elroyDots2)
+	
+	
 	
 func blinkyTarget(state : States):
 	if state == States.CHASE:
@@ -55,3 +59,6 @@ func release(blinkyStart: bool = false):
 	get_parent().release(blinkyStart)
 	
 	released = true
+	
+func disableShadows():
+	$PointLight2D.shadow_enabled = false

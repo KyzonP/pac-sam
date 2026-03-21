@@ -2,7 +2,9 @@ extends Node
 
 var level = 1
 
-var highScore = 0
+var highScore1 = 0
+var highScore2 = 0
+var highScore3 = 0
 
 var bonusPoints = [100, 300, 500, 500, 700, 700, 1000, 1000, 2000, 2000, 3000, 3000, 5000]
 var samSpeed = [80,90,90,90,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,90]
@@ -17,6 +19,9 @@ var scareGhostSpeed = [50,55,55,55,60]
 var scareTime = [6,5,4,3,2,5,2,2,1,5,2,1,1,3,1,1]
 var scareFlashes = [5,5,5,5,5,5,5,5,3,5,5,3,3,5,3,3]
 var stateTimes = [[7,20,7,20,5,20,5],[7,20,7,20,5,1033,0.016],[7,20,7,20,5,1033,0.016],[7,20,7,20,5,1033,0.016],[5,20,5,20,5,1037,0.016]]
+
+var fruitName =["cherry", "strawberry", "orange", "orange", "apple", "apple", "melon", "melon", "galaxian", "galaxian", "bell", "bell", "key"]
+
 
 func getStats(array):
 	# Reorganized so when returning the stateTimers array it's a duplicate and not a reference

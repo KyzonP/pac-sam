@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://da7udmbutrsoc"]
+
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="1_3rcir"]
+[ext_resource type="Texture2D" uid="uid://d21o8b8s025be" path="res://assets/pickups/hand.png" id="2_6yvhm"]
+[ext_resource type="Texture2D" uid="uid://dgnttx6tqqtfa" path="res://assets/pickups/pelvis.png" id="3_al8xo"]
+[ext_resource type="Texture2D" uid="uid://f8b8q140117j" path="res://assets/pickups/skull.png" id="4_cdnsc"]
+[ext_resource type="Texture2D" uid="uid://bmeipdktjhmd4" path="res://assets/pickups/foot.png" id="5_1a4mn"]
+[ext_resource type="Texture2D" uid="uid://b4nktmhhprtbc" path="res://assets/pickups/rib.png" id="6_5biri"]
+[ext_resource type="Texture2D" uid="uid://b5v5k4k1xov1j" path="res://assets/pickups/leg.png" id="7_yl5ok"]
+[ext_resource type="Texture2D" uid="uid://c3molv6bt3srb" path="res://assets/pickups/arm.png" id="8_e4dky"]
+[ext_resource type="Texture2D" uid="uid://cb360hk7dw40i" path="res://assets/pickups/spine.png" id="9_qllap"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5pqm"]
+atlas = ExtResource("4_cdnsc")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rkaip"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6yvhm")
+}],
+"loop": true,
+"name": &"apple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_al8xo")
+}],
+"loop": true,
+"name": &"bell",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5pqm")
+}],
+"loop": true,
+"name": &"cherry",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_1a4mn")
+}],
+"loop": true,
+"name": &"galaxian",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5biri")
+}],
+"loop": true,
+"name": &"key",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_yl5ok")
+}],
+"loop": true,
+"name": &"melon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_e4dky")
+}],
+"loop": true,
+"name": &"orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_qllap")
+}],
+"loop": true,
+"name": &"strawberry",
+"speed": 5.0
+}]
+
+[node name="FruitUI" type="Control" unique_id=76647003]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=401178462]
+material = ExtResource("1_3rcir")
+sprite_frames = SubResource("SpriteFrames_rkaip")
+autoplay = "default"

@@ -1,14 +1,33 @@
 [gd_scene format=3 uid="uid://bq04vr41e0ivn"]
 
 [ext_resource type="Script" uid="uid://cddbpftou6ocj" path="res://scripts/ui/pause_menu.gd" id="1_6tw0m"]
+[ext_resource type="Texture2D" uid="uid://3iou4n7p07ch" path="res://assets/ui/Button.png" id="2_4inpj"]
+[ext_resource type="Texture2D" uid="uid://d4ecopmig63ym" path="res://assets/ui/ButtonPressed.png" id="3_8fwbo"]
+[ext_resource type="Texture2D" uid="uid://chbgy5uas4af2" path="res://assets/ui/ButtonHighlight.png" id="4_2rlsb"]
+[ext_resource type="Script" uid="uid://bwnhludxhvyib" path="res://scripts/ui/button.gd" id="5_coo1x"]
+[ext_resource type="FontFile" uid="uid://dmv1nwstynj2h" path="res://assets/fonts/PrStart.ttf" id="6_2jkta"]
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1191924403]
 process_mode = 3
 script = ExtResource("1_6tw0m")
 
-[node name="Button" type="Button" parent="." unique_id=146757375]
-offset_left = 184.0
-offset_top = 56.0
-offset_right = 264.0
-offset_bottom = 87.0
-text = "Resume"
+[node name="Button" type="TextureButton" parent="." unique_id=1026462783]
+offset_top = 256.0
+offset_right = 448.0
+offset_bottom = 320.0
+texture_normal = ExtResource("2_4inpj")
+texture_pressed = ExtResource("3_8fwbo")
+texture_hover = ExtResource("4_2rlsb")
+stretch_mode = 3
+script = ExtResource("5_coo1x")
+
+[node name="Text" type="RichTextLabel" parent="Button" unique_id=790659417]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("6_2jkta")
+bbcode_enabled = true
+text = "[center]Resume"

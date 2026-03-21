@@ -1,11 +1,160 @@
 [gd_scene format=3 uid="uid://cvoam658x5n7c"]
 
 [ext_resource type="Script" uid="uid://blwimvd6gx2jb" path="res://scripts/ghosts/blinky.gd" id="1_h43xa"]
-[ext_resource type="Texture2D" uid="uid://brbtab05pwu0r" path="res://assets/GhostTest.png" id="2_hhhug"]
+[ext_resource type="Texture2D" uid="uid://pdq6ygvfav8w" path="res://assets/ghosts/Blinky.png" id="2_hhhug"]
+[ext_resource type="Texture2D" uid="uid://cbhhrwahl3dww" path="res://assets/ghosts/FrightenedGhost.png" id="2_vl2yp"]
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="3_mw3wb"]
+[ext_resource type="Texture2D" uid="uid://cd47dlg5rpgxt" path="res://assets/ghosts/Eyes.png" id="4_xr681"]
+[ext_resource type="PackedScene" uid="uid://ctiwd6gwywk22" path="res://scenes/enemies/anim_manager.tscn" id="5_v0tia"]
+[ext_resource type="Texture2D" uid="uid://ch0yv16qsogct" path="res://assets/textures/light.png" id="7_vm53o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvjxi"]
+atlas = ExtResource("2_vl2yp")
+region = Rect2(0, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0adva"]
+atlas = ExtResource("2_vl2yp")
+region = Rect2(32, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43cqc"]
+atlas = ExtResource("2_vl2yp")
+region = Rect2(16, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4r5w"]
+atlas = ExtResource("2_vl2yp")
+region = Rect2(48, 0, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xr681"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvjxi")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0adva")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43cqc")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4r5w")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vl2yp"]
+atlas = ExtResource("2_hhhug")
+region = Rect2(0, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xr681"]
+atlas = ExtResource("2_hhhug")
+region = Rect2(32, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0tia"]
+atlas = ExtResource("2_hhhug")
+region = Rect2(16, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw3wb"]
+atlas = ExtResource("2_hhhug")
+region = Rect2(48, 0, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vm53o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vl2yp")
+}],
+"loop": true,
+"name": &"down",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xr681")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0tia")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw3wb")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vm53o"]
+atlas = ExtResource("4_xr681")
+region = Rect2(48, 0, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jycf0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vm53o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Blinky" type="Node2D" unique_id=649898408]
+z_index = 1
 script = ExtResource("1_h43xa")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2017887264]
+[node name="ScareAnim" type="AnimatedSprite2D" parent="." unique_id=345278419]
+visible = false
+material = ExtResource("3_mw3wb")
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_xr681")
+animation = &"left"
+autoplay = "left"
+
+[node name="Anim" type="AnimatedSprite2D" parent="." unique_id=1081885315]
 modulate = Color(1, 0.110000014, 0.110000014, 1)
-texture = ExtResource("2_hhhug")
+material = ExtResource("3_mw3wb")
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_vm53o")
+animation = &"up"
+
+[node name="Eyes" type="AnimatedSprite2D" parent="." unique_id=985434388]
+visible = false
+material = ExtResource("3_mw3wb")
+sprite_frames = SubResource("SpriteFrames_jycf0")
+
+[node name="AnimManager" parent="." unique_id=1079172732 instance=ExtResource("5_v0tia")]
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1286143834]
+color = Color(1, 0.01666665, 0, 1)
+energy = 0.25
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.21176471)
+texture = ExtResource("7_vm53o")
+texture_scale = 0.1

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://sdltoxdwa1v0"]
+
+[ext_resource type="Script" uid="uid://cutvumhew8bhd" path="res://scripts/pickups/power_up.gd" id="1_ig136"]
+[ext_resource type="Texture2D" uid="uid://cvgo33ubsf01p" path="res://assets/pickups/PowerUp.png" id="1_j7my0"]
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="2_6iuya"]
+[ext_resource type="Texture2D" uid="uid://ch0yv16qsogct" path="res://assets/textures/light.png" id="3_6iuya"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ig136"]
+radius = 8.0
+
+[node name="PowerUp" type="Area2D" unique_id=1333589278 groups=["powerup"]]
+collision_layer = 16
+script = ExtResource("1_ig136")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1097085862]
+material = ExtResource("2_6iuya")
+texture = ExtResource("1_j7my0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=35504999]
+shape = SubResource("CircleShape2D_ig136")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1312500562]
+color = Color(9.770542e-06, 0.9729255, 0.09132341, 1)
+energy = 0.25
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.21176471)
+texture = ExtResource("3_6iuya")
+texture_scale = 0.1
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

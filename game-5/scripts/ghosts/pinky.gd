@@ -18,6 +18,7 @@ func _ready():
 	event_bus.pelletConsumed.connect(checkRelease)
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
+	event_bus.disableShadows.connect(disableShadows)
 	
 func start():
 	checkRelease()
@@ -54,3 +55,6 @@ func release():
 	get_parent().release()
 	
 	released = true
+
+func disableShadows():
+	$PointLight2D.shadow_enabled = false

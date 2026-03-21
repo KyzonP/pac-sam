@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://cq2wo8gwtyvkv"]
+
+[ext_resource type="Texture2D" uid="uid://3iou4n7p07ch" path="res://assets/ui/Button.png" id="1_1g8jr"]
+[ext_resource type="Script" uid="uid://cuwvysr3d2p32" path="res://scripts/ui/main_menu.gd" id="1_uhagc"]
+[ext_resource type="Texture2D" uid="uid://d4ecopmig63ym" path="res://assets/ui/ButtonPressed.png" id="2_m1kxf"]
+[ext_resource type="Texture2D" uid="uid://bga575cmr6o4u" path="res://assets/ui/Background.png" id="2_wb0q5"]
+[ext_resource type="Texture2D" uid="uid://chbgy5uas4af2" path="res://assets/ui/ButtonHighlight.png" id="3_x2yvf"]
+[ext_resource type="FontFile" uid="uid://dmv1nwstynj2h" path="res://assets/fonts/PrStart.ttf" id="4_m1kxf"]
+[ext_resource type="Script" uid="uid://bwnhludxhvyib" path="res://scripts/ui/button.gd" id="4_x2yvf"]
+[ext_resource type="Texture2D" uid="uid://do4yv1135ysnv" path="res://assets/ui/pacsam.png" id="7_btxxm"]
+[ext_resource type="Texture2D" uid="uid://conjd3qwgyh80" path="res://assets/ui/MuteButton.png" id="9_ayp64"]
+[ext_resource type="Texture2D" uid="uid://dmnt7t6g7phvl" path="res://assets/ui/MuteButtonPressed.png" id="10_y2j7i"]
+[ext_resource type="Texture2D" uid="uid://bqsajua7if88w" path="res://assets/ui/MuteButtonHover.png" id="11_y1h5l"]
+[ext_resource type="Script" uid="uid://dfrc32vj66h6j" path="res://scripts/ui/mute_button.gd" id="12_pw24t"]
+[ext_resource type="Texture2D" uid="uid://gwbeytedfrv0" path="res://assets/ui/PauseButton.png" id="13_5dct7"]
+[ext_resource type="Texture2D" uid="uid://bsvg1er2w58le" path="res://assets/ui/PauseButtonPressed.png" id="14_qilvv"]
+[ext_resource type="Texture2D" uid="uid://bb12upbl35le7" path="res://assets/ui/PauseButtonHover.png" id="15_jbte4"]
+[ext_resource type="Script" uid="uid://dh3sug36m4dtn" path="res://scripts/ui/pause_button.gd" id="16_e0hcc"]
+
+[node name="MainMenu" type="Control" unique_id=1706324370]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uhagc")
+
+[node name="Back" type="TextureRect" parent="." unique_id=308897838]
+layout_mode = 0
+offset_right = 448.0
+offset_bottom = 576.0
+mouse_filter = 2
+texture = ExtResource("2_wb0q5")
+
+[node name="Classic" type="TextureButton" parent="." unique_id=1669070334]
+layout_mode = 0
+offset_top = 256.0
+offset_right = 448.0
+offset_bottom = 320.0
+texture_normal = ExtResource("1_1g8jr")
+texture_pressed = ExtResource("2_m1kxf")
+texture_hover = ExtResource("3_x2yvf")
+stretch_mode = 3
+script = ExtResource("4_x2yvf")
+
+[node name="Text" type="RichTextLabel" parent="Classic" unique_id=1785595897]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_m1kxf")
+bbcode_enabled = true
+text = "[center]Classic"
+
+[node name="Temple" type="TextureButton" parent="." unique_id=1867800418]
+layout_mode = 0
+offset_top = 352.0
+offset_right = 448.0
+offset_bottom = 416.0
+texture_normal = ExtResource("1_1g8jr")
+texture_pressed = ExtResource("2_m1kxf")
+texture_hover = ExtResource("3_x2yvf")
+stretch_mode = 3
+script = ExtResource("4_x2yvf")
+
+[node name="Text" type="RichTextLabel" parent="Temple" unique_id=1231943025]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_m1kxf")
+bbcode_enabled = true
+text = "[center]Temple"
+
+[node name="Tomb" type="TextureButton" parent="." unique_id=663911370]
+layout_mode = 0
+offset_top = 448.0
+offset_right = 448.0
+offset_bottom = 512.0
+texture_normal = ExtResource("1_1g8jr")
+texture_pressed = ExtResource("2_m1kxf")
+texture_hover = ExtResource("3_x2yvf")
+stretch_mode = 3
+script = ExtResource("4_x2yvf")
+
+[node name="Text" type="RichTextLabel" parent="Tomb" unique_id=812431548]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_m1kxf")
+bbcode_enabled = true
+text = "[center]Tomb"
+
+[node name="Logo" type="TextureRect" parent="." unique_id=1802518456]
+layout_mode = 0
+offset_top = 58.72
+offset_right = 630.0
+offset_bottom = 558.72
+scale = Vector2(0.711, 0.711)
+mouse_filter = 2
+texture = ExtResource("7_btxxm")
+
+[node name="MuteButton" type="TextureButton" parent="." unique_id=16161389]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 40.0
+offset_bottom = 41.0
+texture_normal = ExtResource("9_ayp64")
+texture_pressed = ExtResource("10_y2j7i")
+texture_hover = ExtResource("11_y1h5l")
+script = ExtResource("12_pw24t")
+
+[node name="PauseButton" type="TextureButton" parent="." unique_id=431569146]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 16.0
+offset_right = 440.0
+offset_bottom = 41.0
+texture_normal = ExtResource("13_5dct7")
+texture_pressed = ExtResource("14_qilvv")
+texture_hover = ExtResource("15_jbte4")
+script = ExtResource("16_e0hcc")
+
+[connection signal="pressed" from="Classic" to="." method="_on_classic_pressed"]
+[connection signal="pressed" from="Temple" to="." method="_on_temple_pressed"]
+[connection signal="pressed" from="Tomb" to="." method="_on_tomb_pressed"]

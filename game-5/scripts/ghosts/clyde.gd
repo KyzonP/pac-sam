@@ -6,8 +6,10 @@ extends Node2D
 @export var releasePellets : int
 @export var released : bool = false
 
+
 enum States {CHASE, SCATTER, FRIGHTENED}
 enum Direction {UP, DOWN, LEFT, RIGHT, VOID}
+
 
 func _ready():
 	scatterTile = get_parent().helper.maze.local_to_map(Vector2(40,568))
@@ -19,6 +21,7 @@ func _ready():
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
 	event_bus.checkClyde.connect(checkClyde)
+	event_bus.disableShadows.connect(disableShadows)
 	
 func start():
 	checkRelease()
@@ -56,3 +59,7 @@ func checkClyde():
 	if !released:
 		release()
 		event_bus.emit_signal("clydeReleased")
+		
+func disableShadows():
+	$PointLight2D.shadow_enabled = false
+		

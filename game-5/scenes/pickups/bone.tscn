@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://b5uidb01ekngr"]
+
+[ext_resource type="Script" uid="uid://vlx053moqh5m" path="res://scripts/pickups/bone.gd" id="1_eaxpy"]
+[ext_resource type="Texture2D" uid="uid://f8b8q140117j" path="res://assets/pickups/skull.png" id="2_866lx"]
+[ext_resource type="Material" uid="uid://bhkaexsfv4lf3" path="res://materials/unshaded.tres" id="2_l5pqm"]
+[ext_resource type="Texture2D" uid="uid://d21o8b8s025be" path="res://assets/pickups/hand.png" id="3_ufkce"]
+[ext_resource type="Texture2D" uid="uid://cb360hk7dw40i" path="res://assets/pickups/spine.png" id="4_mfbbs"]
+[ext_resource type="Texture2D" uid="uid://dgnttx6tqqtfa" path="res://assets/pickups/pelvis.png" id="4_n87jk"]
+[ext_resource type="Texture2D" uid="uid://c3molv6bt3srb" path="res://assets/pickups/arm.png" id="4_pj3bq"]
+[ext_resource type="Texture2D" uid="uid://bmeipdktjhmd4" path="res://assets/pickups/foot.png" id="5_u5g82"]
+[ext_resource type="Texture2D" uid="uid://b5v5k4k1xov1j" path="res://assets/pickups/leg.png" id="6_l8epx"]
+[ext_resource type="Texture2D" uid="uid://b4nktmhhprtbc" path="res://assets/pickups/rib.png" id="7_vmy06"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p44m2"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5pqm"]
+atlas = ExtResource("2_866lx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eaxpy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ufkce")
+}],
+"loop": true,
+"name": &"apple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_n87jk")
+}],
+"loop": true,
+"name": &"bell",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5pqm")
+}],
+"loop": true,
+"name": &"cherry",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_u5g82")
+}],
+"loop": true,
+"name": &"galaxian",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_vmy06")
+}],
+"loop": true,
+"name": &"key",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_l8epx")
+}],
+"loop": true,
+"name": &"melon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_pj3bq")
+}],
+"loop": true,
+"name": &"orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_mfbbs")
+}],
+"loop": true,
+"name": &"strawberry",
+"speed": 5.0
+}]
+
+[node name="Bone" type="Area2D" unique_id=827819320]
+visible = false
+collision_layer = 16
+script = ExtResource("1_eaxpy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=248042354]
+shape = SubResource("CircleShape2D_p44m2")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1729874960]
+material = ExtResource("2_l5pqm")
+sprite_frames = SubResource("SpriteFrames_eaxpy")
+animation = &"key"
+autoplay = "default"
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

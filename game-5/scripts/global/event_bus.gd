@@ -8,6 +8,14 @@ signal pelletConsumed()
 
 # Emitted when the ghosts need to change state #
 @warning_ignore("UNUSED_SIGNAL")
+signal spawnFruit()
+
+# Emitted when the ghosts need to change state #
+@warning_ignore("UNUSED_SIGNAL")
+signal fruitEaten()
+
+# Emitted when the ghosts need to change state #
+@warning_ignore("UNUSED_SIGNAL")
 signal ghostState()
 
 # Emitted when a level reset occurs, either due to a death or completion of the level #
@@ -49,3 +57,19 @@ signal checkClyde()
 # Release Clyde early
 @warning_ignore("UNUSED_SIGNAL")
 signal clydeReleased()
+
+# Disable shadows on mobile
+@warning_ignore("UNUSED_SIGNAL")
+signal disableShadows()
+
+# Disable shadows on mobile
+@warning_ignore("UNUSED_SIGNAL")
+signal toggleMute()
+
+# Disable shadows on mobile
+@warning_ignore("UNUSED_SIGNAL")
+signal togglePause()
+
+# Disable shadows on mobile
+@warning_ignore("UNUSED_SIGNAL")
+signal lifeChanged(anim_name)

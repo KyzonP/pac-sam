@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ctiwd6gwywk22"]
+
+[ext_resource type="Script" uid="uid://cxxqax2d04amh" path="res://scripts/ghosts/anim_manager.gd" id="1_n42c0"]
+
+[node name="AnimManager" type="Node2D" unique_id=1079172732]
+script = ExtResource("1_n42c0")

@@ -10,6 +10,7 @@ extends Node2D
 enum States {CHASE, SCATTER, FRIGHTENED}
 enum Direction {UP, DOWN, LEFT, RIGHT, VOID}
 
+
 func _ready():
 	scatterTile = get_parent().helper.maze.local_to_map(Vector2(408,568))
 	
@@ -20,6 +21,7 @@ func _ready():
 	event_bus.restart.connect(reset)
 	event_bus.startLevel.connect(start)
 	event_bus.checkInky.connect(checkInky)
+	event_bus.disableShadows.connect(disableShadows)
 	
 func start():
 	checkRelease()
@@ -65,3 +67,6 @@ func checkInky():
 	if !released:
 		release()
 		event_bus.emit_signal("inkyReleased")
+		
+func disableShadows():
+	$PointLight2D.shadow_enabled = false
