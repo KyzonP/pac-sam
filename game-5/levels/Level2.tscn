@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://d0wf6t6p3vjg2" path="res://assets/ui/LivesIcon.png" id="26_jscuo"]
 [ext_resource type="Script" uid="uid://bbux7imjwxwln" path="res://scripts/ui/boneContainer.gd" id="28_fmwlo"]
 [ext_resource type="PackedScene" uid="uid://da7udmbutrsoc" path="res://scenes/ui/BoneUI.tscn" id="29_2q1de"]
+[ext_resource type="PackedScene" uid="uid://b5uidb01ekngr" path="res://scenes/pickups/bone.tscn" id="31_2q1de"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcl05"]
 
@@ -946,6 +947,9 @@ bone_scene = ExtResource("29_2q1de")
 
 [node name="TouchJoystick" parent="." unique_id=443366423 instance=ExtResource("18_behg1")]
 visible = false
+
+[node name="Bone" parent="." unique_id=827819320 instance=ExtResource("31_2q1de")]
+position = Vector2(224, 328)
 
 [connection signal="area_entered" from="Tunnel" to="Tunnel" method="_on_area_entered"]
 [connection signal="area_entered" from="TunnelArea" to="TunnelArea" method="_on_area_entered"]

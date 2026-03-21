@@ -22,7 +22,6 @@ var stateTimes = [[7,20,7,20,5,20,5],[7,20,7,20,5,1033,0.016],[7,20,7,20,5,1033,
 
 var fruitName =["cherry", "strawberry", "orange", "orange", "apple", "apple", "melon", "melon", "galaxian", "galaxian", "bell", "bell", "key"]
 
-
 func getStats(array):
 	# Reorganized so when returning the stateTimers array it's a duplicate and not a reference
 	# Also redid the clamping thing I hope

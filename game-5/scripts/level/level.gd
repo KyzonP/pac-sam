@@ -32,11 +32,12 @@ var stateTimes = [7,20,7,20,5,20,5]
 
 enum States {CHASE, SCATTER, FRIGHTENED}
 
-
-
 func _ready():
 	# Save data
 	save_load.load_data()
+	
+	# Reset level stats
+	level_stats.level = 0
 	
 	# Link up mobile controls
 	checkMobile()
@@ -139,7 +140,8 @@ func endGame(death):
 					
 				get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 		else:
-			level_stats.level = level+1
+			
+			level_stats.level = level_stats.level+1
 			event_bus.emit_signal("restart", false, level + 1)
 			
 	

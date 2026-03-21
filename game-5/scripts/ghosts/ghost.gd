@@ -208,7 +208,8 @@ func changeState(newState : String):
 				state = States.CHASE
 			elif newState == "frightened":
 				# Storing their previous state for when they're eaten
-				lastState = state
+				if lastState != States.FRIGHTENED:
+					lastState = state
 				
 				state = States.FRIGHTENED
 				scareGhost.emit()

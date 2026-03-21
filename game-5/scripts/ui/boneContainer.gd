@@ -36,4 +36,4 @@ func _tween_out_bone(bone_node: Control):
 	tween_out.tween_property(bone_node, "custom_minimum_size:x", 0, 0.4).set_trans(Tween.TRANS_SINE)
 	
 	tween_out.chain().kill() # Stop the tween
-	tween_out.chain().callback(bone_node.queue_free)
+	tween_out.chain().tween_callback(bone_node.queue_free)

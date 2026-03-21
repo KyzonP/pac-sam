@@ -12,9 +12,12 @@ func _ready():
 	
 	event_bus.spawnFruit.connect(spawnBone)
 	event_bus.restart.connect(reset)
-	
+		
 func reset(_death, _level):
+	despawnBone()
+	print(anim.animation)
 	anim.animation = level_stats.getStats(level_stats.fruitName)
+	print(level_stats.level)
 
 func _physics_process(delta):
 	if !eaten:
