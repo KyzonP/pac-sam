@@ -130,7 +130,7 @@ func checkWin():
 		
 func checkAudio():
 	for milestone in speed_milestones:
-		if pelletsEaten > milestone.threshold and not milestone.reached:
+		if pelletsEaten >= milestone.threshold and not milestone.reached:
 			milestone.reached = true
 			AudioManager.music_player.pitch_scale = milestone.pitch
 		
